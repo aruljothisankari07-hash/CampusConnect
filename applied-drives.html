@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applied Drives</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+<div class="logo">CampusConnect</div>
+
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="companies.html">Companies</a></li>
+<li><a href="applied-drives.html">Applied Drives</a></li>
+<li><a href="profile.html">Profile</a></li>
+</ul>
+</nav>
+
+<section class="jobs">
+
+<h2>Applied Drives 🚀</h2>
+
+<div id="appliedContainer"></div>
+
+</section>
+
+<script>
+
+function loadAppliedDrives(){
+
+let drives =
+JSON.parse(localStorage.getItem("appliedDrives")) || [];
+
+let container =
+document.getElementById("appliedContainer");
+
+container.innerHTML = "";
+
+if(drives.length === 0){
+
+container.innerHTML =
+"<h3>No Applied Drives Yet ❌</h3>";
+
+return;
+}
+
+drives.forEach(company => {
+
+container.innerHTML += `
+<div class="company-card">
+<h2>${company}</h2>
+<p>Application Submitted ✅</p>
+
+<button onclick="removeDrive('${company}')">
+Remove
+</button>
+
+</div>
+`;
+
+});
+
+}
+
+function removeDrive(company){
+
+let drives =
+JSON.parse(localStorage.getItem("appliedDrives")) || [];
+
+drives = drives.filter(item => item !== company);
+
+localStorage.setItem(
+"appliedDrives",
+JSON.stringify(drives)
+);
+
+showToast("Application Removed ❌");
+
+loadAppliedDrives();
+
+}
+
+loadAppliedDrives();
+
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
