@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - CampusConnect</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+
+<div class="logo">CampusConnect</div>
+
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="companies.html">Companies</a></li>
+<li><a href="applied-drives.html">Applied Drives</a></li>
+<li><a href="profile.html">Profile</a></li>
+</ul>
+
+</nav>
+
+<section class="jobs">
+
+<h2>Student Profile 👨‍🎓</h2>
+
+<div class="job-card" style="max-width:400px;margin:auto;">
+
+<img
+src="jothi.jpg.jpeg"
+alt="Profile"
+width="150"
+style="
+border-radius:50%;
+margin-bottom:15px;
+height:150px;
+object-fit:cover;
+">
+
+<h3>Upload Resume 📄</h3>
+
+<input
+type="file"
+id="resumeFile"
+accept=".pdf,.doc,.docx">
+
+<br><br>
+
+<button onclick="uploadResume()">
+Upload Resume
+</button>
+
+<p id="resumeStatus"></p>
+
+<h3 id="studentName">Student Name</h3>
+
+<p id="studentEmail">student@email.com</p>
+
+<p>
+Applied Drives:
+<span id="driveCount">0</span>
+</p>
+
+<br>
+
+<button onclick="editProfile()">
+Edit Profile ✏️
+</button>
+
+<br><br>
+
+<button onclick="logoutUser()">
+Logout
+</button>
+
+</div>
+
+</section>
+
+<script>
+
+// Student Name
+document.getElementById("studentName").innerText =
+localStorage.getItem("studentName") || "Guest User";
+
+// Student Email
+document.getElementById("studentEmail").innerText =
+localStorage.getItem("studentEmail") || "No Email";
+
+// Applied Drives Count
+let drives =
+JSON.parse(localStorage.getItem("appliedDrives")) || [];
+
+document.getElementById("driveCount").innerText =
+drives.length;
+
+// Resume Status
+let resume =
+localStorage.getItem("resumeName");
+
+if(resume){
+
+document.getElementById("resumeStatus").innerHTML =
+"Uploaded: " + resume + " ✅";
+
+}
+
+// Edit Profile
+function editProfile(){
+
+let newName =
+prompt("Enter New Name");
+
+let newEmail =
+prompt("Enter New Email");
+
+if(newName && newEmail){
+
+localStorage.setItem(
+"studentName",
+newName
+);
+
+localStorage.setItem(
+"studentEmail",
+newEmail
+);
+
+showToast("Profile Updated ✅");
+
+setTimeout(()=>{
+location.reload();
+},1000);
+
+}
+
+}
+
+// Logout Function
+function logoutUser(){
+
+localStorage.removeItem("studentName");
+localStorage.removeItem("studentEmail");
+localStorage.removeItem("studentPassword");
+
+showToast("Logged Out 👋");
+
+setTimeout(()=>{
+window.location.href="login.html";
+},1000);
+
+}
+
+// Upload Resume
+function uploadResume(){
+
+let file =
+document.getElementById("resumeFile").files[0];
+
+if(!file){
+
+showToast("Select a Resume First ❗");
+return;
+
+}
+
+localStorage.setItem(
+"resumeName",
+file.name
+);
+
+document.getElementById("resumeStatus").innerHTML =
+"Uploaded: " + file.name + " ✅";
+
+showToast("Resume Uploaded 🚀");
+
+}
+
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
